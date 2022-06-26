@@ -18,7 +18,7 @@
     * IncidentUrl (Urls relied on to create original dataset)
     * NICsChecks (FBI background check data)
     * Particiants (|| delimited participants dataset) see notes below
-    * ParticipantsPivot (Compound Key tables with partcipant data)
+    * ParticipantsDetail (Compound Key tables with partcipant data)
     * Regulations (Contains limited set of Regulatory info used in 2nd prior project)
 
 

@@ -189,7 +189,7 @@ NewNames = {'incident_id':'IncidentID',
             'GunType': 'Gun_type'
            }
 PRTAll = PRT[Columns].rename(columns=NewNames).set_index('IncidentID')
-PRTAll.to_sql('ParticipantsPivot', engine, if_exists='replace')
+PRTAll.to_sql('ParticipantDetail', engine, if_exists='replace')
 
 # Definition of Incident_urls table
 Columns = ['incident_id',

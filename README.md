@@ -32,4 +32,6 @@ Regulations Table - I only brought over data that had been used in the "other" p
 
 Incident Table - Updated to include Latitude and Longitude (I will begin working on a heatmap) I will also work on other datasource(s) for more complete incident data. I will look at datasets that were dismissed for the initial project because they did not contain participant data, they may however contain enough data to determine geo location information that may be useful for this project. 
 
+GVA_Initial_Eval.ipynb - This notebook is not active in anyway, it is the sandbox from the original project. It will be removed in future updates. 
+
 ## End edit LAF 06.26.2022 10:45a

@@ -28,6 +28,8 @@ GVA13_18.csv this file should be in your gitignore that came down with your clon
 
 Participants Table - it is still here because it does contain information dropped from the pivot table. There are some incidents that involve many guns (as many as 399). In the pivot these multi-gun incidents created an additional 66,000+ rows that contain only gun type data. The vast majority of those **unknown**. If you would like to retrieve this additional gun information you will need to go back the participant table to retrieve it. If we determine that info is not required, we may drop that table from the final project.
 
-Incident Table - Updated to include Latitude and Longitude (I will begin working on a heatmap) I will also work on other datasource(s) for more complete incident data. 
+Regulations Table - I only brought over data that had been used in the "other" project, however there is additional information in the codebook and the csv file. If any is useful, just say the word and it can be migrated to the db. 
+
+Incident Table - Updated to include Latitude and Longitude (I will begin working on a heatmap) I will also work on other datasource(s) for more complete incident data. I will look at datasets that were dismissed for the initial project because they did not contain participant data, they may however contain enough data to determine geo location information that may be useful for this project. 
 
 ## End edit LAF 06.26.2022 10:45a

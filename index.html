@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>US Gun Violence Map | </title>
+
+<!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+
+<!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+
+<!-- The div that holds our map -->
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+crossorigin=""></script>
+<!-- D3 JavaScript -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <body>
+        <div id="container">
+                <div id="side-bar">
+                        <div id="title-wrapper">
+                            <h1 id="title">United States Gun Violence</h1>
+                        </div>
+                <div class='selector_menu'id="selector_menu_1">
+                    <select id='selector1'>
+                        <option value='All' selected='selected'>All States</option>
+                        <option value='Alabama' >Alabama</option>
+                        <option value='Alaska' >Alaska</option>
+                        <option value='Arizona' >Arizona</option>
+                        <option value='Arkansas' >Arkansas</option>
+                        <option value='California' >California</option>
+                        <option value='Colorado' >Colorado</option>
+                        <option value='Connecticut' >Connecticut</option>
+                        <option value='Delaware' >Delaware</option>
+                        <option value='Florida' >Florida</option>
+                        <option value='Georgia' >Georgia</option>
+                        <option value='Hawaii' >Hawaii</option>
+                        <option value='Idaho' >Idaho</option>
+                        <option value='Illinois' >Illinois</option>
+                        <option value='Indiana' >Indiana</option>
+                        <option value='Iowa' >Iowa</option>
+                        <option value='Kansas' >Kansas</option>
+                        <option value='Kentucky' >Kentucky</option>
+                        <option value='Louisiana' >Louisiana</option>
+                        <option value='Maine' >Maine</option>
+                        <option value='Maryland' >Maryland</option>
+                        <option value='Massachusetts' >Massachusetts</option>
+                        <option value='Michigan' >Michigan</option>
+                        <option value='Minnesota' >Minnesota</option>
+                        <option value='Mississippi' >Mississippi</option>
+                        <option value='Missouri' >Missouri</option>
+                        <option value='Montana' >Montana</option>
+                        <option value='Nebraska' >Nebraska</option>
+                        <option value='Nevada' >Nevada</option>
+                        <option value='NewHampshire' >New Hampshire</option>
+                        <option value='NewJersey' >New Jersey</option>
+                        <option value='NewMexico' >New Mexico</option>
+                        <option value='NewYork' >New York</option>
+                        <option value='NorthCarolina' >North Carolina</option>
+                        <option value='NorthDakota' >North Dakota</option>
+                        <option value='Ohio' >Ohio</option>
+                        <option value='Oklahoma' >Oklahoma</option>
+                        <option value='Oregon' >Oregon</option>
+                        <option value='Pennsylvania' >Pennsylvania</option>
+                        <option value='RhodeIsland' >Rhode Island</option>
+                        <option value='SouthCarolina' >South Carolina</option>
+                        <option value='SouthDakota' >South Dakota</option>
+                        <option value='Tennessee' >Tennessee</option>
+                        <option value='Texas' >Texas</option>
+                        <option value='Utah' >Utah</option>
+                        <option value='Vermont' >Vermont</option>
+                        <option value='Virginia' >Virginia</option>
+                        <option value='Washington' >Washington</option>
+                        <option value='WestVirginia' >West Virginia</option>
+                        <option value='Wisconsin' >Wisconsin</option>
+                        <option value='Wyoming' >Wyoming</option>
+                    </select>
+            
+                </div>
+                <div class='selector_menu'id="selector_menu_2">
+                    <select id='selector2'>
+                        <option value='All' selected='selected'>All types</option>
+                        <option value='Handgun' >Handgun </option>
+                        <option value='Long_Gun' >Long Gun </option>
+                        <option value='Permit' >Permit</option>
+                        <option value='Age' >Age</option>
+                        <option value='No_Killed' >Number People Killed</option>
+                        <option value='Gender' >Gender</option>
+                        <option value='AgeGroup' > Age Group</option>
+                        <option value='Totals' >Total Firearms</option>
+                        <option value='Year' >Year of Incident(s)</option>
+                        <option value='PermitCount' >Permit Count</option>
+                    </select>
+                    </div>
+            
+                <div id='map' style='width: 400px; height: 300px;'></div>
+                <script>
+                mapboxgl.accessToken = 'pk.eyJ1IjoibGltb25lbmUxMSIsImEiOiJjbDR4Z2tvOHcyaHFwM2Nuc2Zrb2NrMm13In0.omRJ961f0P_JXavuNRDWkA';
+                const map = new mapboxgl.Map({
+                    container: 'map', // container ID
+                    style: 'mapbox://styles/mapbox/satellite-streets-v11', // style URL
+                    center: [-97.73, 37.66], // starting position [lng, lat]
+                    zoom: 3.8, // starting zoom1
+                    projection: 'globe' // display the map as a 3D globe
+                });
+                map.on('style.load', () => {
+                    map.setFog({
+                        color: 'rgb(186, 210, 235)', // Lower atmosphere
+                        'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
+                        'horizon-blend': 0.02, // Atmosphere thickness (default 0.2 at low zooms)
+                        'space-color': 'rgb(11, 11, 25)', // Background color
+                        'star-intensity': 0.8 // Background star brightness (default 0.35 at low zoooms )
+                    }); // Set the default atmosphere style
+                });
+                </script>
+                                
+                        </div>
+                        <script type="text/javascript" src="static/js/logic.js"></script>
+                        <!-- API key -->
+                        <script type="text/javascript" src="static/js/config.js"></script>
+                        <link rel="stylesheet" href="static/style.css" />
+            </body>
+        </html>

@@ -1,3 +1,29 @@
+/* Giving the body the specified background color
+for all page backgrounds. Give tables a background to 
+replace image for tables rows */
+.bg-4 {
+    background-color: whitesmoke;
+}
+
+.bg-3 {
+    opacity: .5;
+}
+
+.bg-1 {
+    background-image: linear-gradient(to bottom, rgba(250, 250, 229, 0.5), rgba(237, 237, 248, 0.5)),
+        url('../images/NOAA_Sky.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: transparent;
+}
+
+/* Reset transparency  */
+.bg-2 {
+    opacity: 1.0;
+}
+
+
 body {
     padding: 0;
     margin: 0;

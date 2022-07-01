@@ -34,9 +34,11 @@ REG_data = pd.read_csv(get_REG)
 get_FBI = "../Data/FBI_NICs_Data.csv"
 FBI_data = pd.read_csv(get_FBI)
 
+
 # Participant data from Pivot
 get_PRT = "../Data/GVA_Participant.csv"
-PRT_data = pd.read_csv(get_PRT)
+# Low memory setting allows nulls to be retained
+PRT_data = pd.read_csv(get_PRT, low_memory=False)
 
 # State GeoCenter Data
 get_SGL = "../Data/StateGeoCenter.csv"
@@ -46,6 +48,7 @@ SGL_data = pd.read_csv(get_SGL)
 get_MSS = "../Data/MSS82_22.csv"
 MSS_data = pd.read_csv(get_MSS)
 
+
 # Working copy of GVA, FBI and REG data. 
 GVA = pd.DataFrame(GVA_data)
 FBI = pd.DataFrame(FBI_data)
@@ -53,6 +56,7 @@ REG = pd.DataFrame(REG_data)
 PRT = pd.DataFrame(PRT_data)
 SGL = pd.DataFrame(SGL_data)
 MSS = pd.DataFrame(MSS_data)
+
 
 # Definition of FBI table and write to DB
 Columns = ['month',
@@ -134,7 +138,7 @@ Columns = ['state',
             'longitude',
             'name'
           ]
-          
+
 NewNames = {'state':'state',
             'latitude':'latitude',
             'longitude': 'longitude'

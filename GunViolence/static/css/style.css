@@ -11,7 +11,7 @@ replace image for tables rows */
 
 .bg-1 {
     background-image: linear-gradient(to bottom, rgba(250, 250, 229, 0.5), rgba(237, 237, 248, 0.5)),
-        url('../images/NOAA_Sky.jpg');
+        url('images/BK_map.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -21,6 +21,23 @@ replace image for tables rows */
 /* Reset transparency  */
 .bg-2 {
     opacity: 1.0;
+}
+
+/* Adding media queries to show the drop-down
+and hide the navbar when the screen is smaller than 768 pixels and turn it blue
+*/
+@media (max-width: 660px) {
+    .navbar {
+        padding: 10px;
+        background: #5191fd;
+    }
+}
+
+@media (min-width: 660px) {
+    .navbar {
+        padding: 10px;
+        background: #a4b4e0;
+    }
 }
 
 
@@ -33,6 +50,13 @@ body {
 body,
 html {
     height: 100%;
+}
+
+.landing-map {
+    padding: 0;
+    margin-left: 25%;
+    margin-top: 2%;
+    margin-bottom: 30px;
 }
 
 .legend {
@@ -69,5 +93,11 @@ html {
 }
 
 h1 {
+    text-align: center;
+}
+h4 {
+    text-align: center;
+}
+h6 {
     text-align: center;
 }

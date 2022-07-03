@@ -25,7 +25,7 @@ connection = engine.connect()
 metadata = db.MetaData()
 
 # Save table reference
-Incident = db.Table('incident', metadata, autoload=True, autoload_with=engine)
+Incident = db.Table('Incident', metadata, autoload=True, autoload_with=engine)
 Regulations = db.Table('Regulations', metadata, autoload=True, autoload_with=engine)
 
 # Flask Setup
@@ -35,9 +35,14 @@ app = Flask(__name__)
 # Home Route
 @app.route("/")
 def home():
-#     print("I don't know what to do here yet")
 
     return render_template('index.html')
+
+# # incident Home Route
+# @app.route("/api/v1.0/incident")
+# def homeincidente():
+
+#     return render_template('incident.html')
 
 # Incidents Route
 @app.route("/api/v1.0/incidents",  methods=["POST"])

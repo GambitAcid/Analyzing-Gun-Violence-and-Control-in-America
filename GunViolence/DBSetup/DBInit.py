@@ -23,29 +23,29 @@ else:
     metadata = db.MetaData()
 
 # GVA data from Gun Violence Archive Data
-get_GVA = "../Data/GVA13_18.csv"
+get_GVA = "Data/GVA13_18.csv"
 GVA_data = pd.read_csv(get_GVA)
 
 # Regulation data from Firearm Provisions 
-get_REG = "../Data/USREG.csv"
+get_REG = "Data/USREG.csv"
 REG_data = pd.read_csv(get_REG)
 
 # FBI NICS data from FBI 
-get_FBI = "../Data/FBI_NICs_Data.csv"
+get_FBI = "Data/FBI_NICs_Data.csv"
 FBI_data = pd.read_csv(get_FBI)
 
 
 # Participant data from Pivot
-get_PRT = "../Data/GVA_Participant.csv"
+get_PRT = "Data/GVA_Participant.csv"
 # Low memory setting allows nulls to be retained
 PRT_data = pd.read_csv(get_PRT, low_memory=False)
 
 # State GeoCenter Data
-get_SGL = "../Data/StateGeoCenter.csv"
+get_SGL = "Data/StateGeoCenter.csv"
 SGL_data = pd.read_csv(get_SGL)
 
 # Mass Shooting Data
-get_MSS = "../Data/MSS82_22.csv"
+get_MSS = "Data/MSS82_22.csv"
 MSS_data = pd.read_csv(get_MSS)
 
 
@@ -168,6 +168,15 @@ NewNames = {'incident_id':'IncidentID',
             'state_senate_district': 'Senate_District'
            }
 GVAIncidAll = GVA[Columns].rename(columns=NewNames).set_index('IncidentID')
+
+# Replace missing geo locations with the center of the state where the incident occurred
+SGL.drop(columns = 'state')
+SGL.rename(columns={"latitude": "slatitude", "longitude": "slongitude"}, inplace = True)
+dfc = pd.merge(GVAIncidAll, SGL,  how='left', left_on=['State'], right_on = ['name'])
+dfc['Latitude'] = dfc['Latitude'].fillna(dfc['slatitude'])
+dfc['longitude'] = dfc['longitude'].fillna(dfc['slongitude'])
+dfc.drop(columns = ['slatitude', 'slongitude', 'name'], inplace = True)
+GVAIncidAll = dfc
 GVAIncidAll.to_sql('Incident', engine, index=True, if_exists='replace')
 
 # Definition of Participant Master table
@@ -266,6 +275,15 @@ NewNames = {'case':'case',
            }
 MSSAll = MSS[Columns].rename(columns=NewNames)
 MSSAll.index.rename('MassShootingID', inplace=True)
+
+# Correct category data 
+ms = MSSAll
+ms.loc[ms['location_type'] == "workplace", 'location_type'] = 'Workplace'
+ms.loc[ms['location_type'] == "\nWorkplace", 'location_type'] = 'Workplace'
+ms.loc[ms['location_type'] == "Other\n", 'location_type'] = 'Other'
+ms.loc[ms['gender'] == "M", 'gender'] = 'Male'
+ms.loc[ms['gender'] == "F", 'gender'] = 'Female'
+MSSAll = ms
 MSSAll.to_sql('MassShootings', engine, index=True, if_exists='replace')
 
 # Compares count of Incidents .vs sum of Applications over available time periods
@@ -295,4 +313,3 @@ NewNames = {'YM':'Period',
            }
 GVAVsAPP = GVAFBI[Columns].rename(columns=NewNames).set_index('Period')
 GVAVsAPP.to_sql('IncVApp', engine, index=True, if_exists='replace')
-

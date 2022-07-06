@@ -1,3 +1,3 @@
 // MAPBOX API KEY
 
-const API_KEY = "your access token here";
+const API_KEY = "pk.eyJ1IjoibGltb25lbmUxMSIsImEiOiJjbDR4Z2tvOHcyaHFwM2Nuc2Zrb2NrMm13In0.omRJ961f0P_JXavuNRDWkA";

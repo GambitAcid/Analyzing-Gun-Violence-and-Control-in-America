@@ -24,6 +24,9 @@ engine = create_engine(cestring)
 connection = engine.connect()
 metadata = db.MetaData()
 
+# NICS data
+nics_df = pd.read_csv("static/Data/NICsChecks_Geocoords.csv").dropna(how="any")
+
 # Save table reference
 Incident = db.Table('Incident', metadata, autoload=True, autoload_with=engine)
 Regulations = db.Table('Regulations', metadata, autoload=True, autoload_with=engine)
@@ -45,7 +48,7 @@ def home():
 #     return render_template('incident.html')
 
 # Incidents Route
-@app.route("/api/v1.0/incidents",  methods=["POST"])
+@app.route("/api/v1.0/incidents")
 def incidents():
     '''Incident API Gun Violence App'''
     print('entered incident route')
@@ -66,8 +69,8 @@ def incidents():
 
     for _, row in df_top.iterrows():
         feature = {"type": "Feature", "geometry": {"type": "Point",
-                  "coordinates": [row['longitude'], row['Latitude']]},
-                  "properties": {"city": row['City'],"state": row['State'],
+                "coordinates": [row['longitude'], row['Latitude']]},
+                "properties": {"city": row['City'],"state": row['State'],
                                 "incidentID": row['IncidentID'],"date": row['Date'],
                                 "killed": row['No_Killed']}}
         geojson['features'].append(feature)
@@ -96,8 +99,8 @@ def incidentsByDate(date):
 
     for _, row in df_date.iterrows():
         feature = {"type": "Feature", "geometry": {"type": "Point",
-                  "coordinates": [row['longitude'], row['Latitude']]},
-                  "properties": {"city": row['City'],"state": row['State'],
+                "coordinates": [row['longitude'], row['Latitude']]},
+                "properties": {"city": row['City'],"state": row['State'],
                                 "incidentID": row['IncidentID'],"date": row['Date'],
                                 "killed": row['No_Killed']}}
         geojson['features'].append(feature)
@@ -127,13 +130,33 @@ def incidentsByYear(year):
 
     for _, row in df_year.iterrows():
         feature = {"type": "Feature", "geometry": {"type": "Point",
-                  "coordinates": [row['longitude'], row['Latitude']]},
-                  "properties": {"city": row['City'],"state": row['State'],
+                "coordinates": [row['longitude'], row['Latitude']]},
+                "properties": {"city": row['City'],"state": row['State'],
                                 "incidentID": row['IncidentID'],"date": row['Date'],
                                 "killed": row['No_Killed']}}
         geojson['features'].append(feature)
     
     return geojson
+            ### NICs Route By State ###
+
+@app.route("/api/v1.0/NICsStates")
+def nics_states():
+    geojson = {"type": "FeatureCollection", "features": []}
+
+    for _, row in nics_df.iterrows():
+        feature = {"type": "Feature", "geometry": {"type": "Point",
+                "coordinates": [row['longitude'], row['Latitude']]},
+                "properties": {"state": row['State'],
+                            "permit": row['Permit'],"handgun": row['Handgun'],
+                            "long_gun": row['Long_Gun']}}
+        geojson['features'].append(feature)
+    
+    return geojson
+
+
+# Define behavoir for main
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # # Regulations Route
 # @app.route("/api/v1.0/regulations",  methods=["GET", "POST"])
@@ -154,7 +177,3 @@ def incidentsByYear(year):
 # def choice():
 #         '''Do Soomething here'''
 #         # Return JSON 
-
-# Define behavoir for main
-if __name__ == '__main__':
-    app.run(debug=True)

@@ -16,6 +16,7 @@ var url ='/api/v1.0/massShootings'
 var url ='/api/v1.0/regulations'
 var url ='/api/v1.0/incidentsByYears'
 var url ='/api/v1.0/incidentsByDate'
+var url = 'api/v1.0/NICsStates'
 
 //--------------------------------------------
 // Get layers for selectable backgrounds.
@@ -90,14 +91,14 @@ var baseMaps = {
   Dark: dark};
 
 L.control
- .layers(baseMaps, overlays)
- .addTo(map);
+.layers(baseMaps, overlays)
+.addTo(map);
 
 //--------------------------------------------
 // Set Map Features 
 //--------------------------------------------
 function createMap(response) {
- 
+
   //--------------------------------------------
   // Create a GeoJSON layer containing the features 
   //--------------------------------------------
@@ -140,9 +141,9 @@ function createMap(response) {
     var labels = [];
     
     // Label and color the legend
-       for (var i = 0; i < k.length; i++) {
+      for (var i = 0; i < k.length; i++) {
 
-           labels.push('<li style="background-color:' + DColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
+          labels.push('<li style="background-color:' + DColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
         }
         // Add Legend HTML
         div.innerHTML = "<h6>Incidents (2017)</h6><h6>Number Killed</h6>";
@@ -200,17 +201,17 @@ function createState(regulationsdata) {
   L.geoJson(regulationsdata, {
 
     onEachFeature: function(feature, layer){
-     layer.bindPopup(`<strong>State: </strong> ${feature.properties.stateName}<br><strong>Total Number of Gun Control Laws: </strong> ${feature.properties.lawTotal}`);
-   }
- }).addTo(regulations);
+    layer.bindPopup(`<strong>State: </strong> ${feature.properties.stateName}<br><strong>Total Number of Gun Control Laws: </strong> ${feature.properties.lawTotal}`);
+  }
+}).addTo(regulations);
 
-   regulations.addTo(map);
+  regulations.addTo(map);
 }
 //--------------------------------------------
 // Set Mass Shooting Map Features 
 //--------------------------------------------
 function createMMap(mresponse) {
- 
+
   //--------------------------------------------
   // Create a GeoJSON for Mass Shootings
   //--------------------------------------------
@@ -256,9 +257,9 @@ function createMMap(mresponse) {
     var labels = [];
     
     // Label and color the legend
-       for (var i = 0; i < k.length; i++) {
+      for (var i = 0; i < k.length; i++) {
 
-           labels.push('<li style="background-color:' + DColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
+          labels.push('<li style="background-color:' + DColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
         }
         // Add Legend HTML
         div.innerHTML = "<h6>Mass Shootings</h6><h6>Number Killed</h6>";
@@ -316,7 +317,7 @@ function GetSelection(type){
     break;
   case year:
     var url = "http://127.0.0.1:8000//api/v1.0/incidentsByYear(sValue)"
-     return url
+    return url
     break;
   case state:
     var url = "http://127.0.0.1:8000//api/v1.0/incidentsByState(sValue)"

@@ -1,19 +1,17 @@
 # Dependencies
-## from ntpath import join
+# Import Flask | Sqlalchemy | json | geojson 
 from flask import Flask 
-
-# Import Flask
 from flask import Flask, jsonify, request, render_template
 
-# Dependencies and Setup
 import pandas as pd
+
 import sqlalchemy as db
-import json
-import geojson
 from sqlalchemy import create_engine, func
 from sqlalchemy import inspect
-from geojson import Point, Feature
 
+import json
+import geojson
+from geojson import Point, Feature
 
 # Postgres Connection String
 from config import User
@@ -27,6 +25,8 @@ metadata = db.MetaData()
 # Save table reference
 Incident = db.Table('Incident', metadata, autoload=True, autoload_with=engine)
 Regulations = db.Table('Regulations', metadata, autoload=True, autoload_with=engine)
+StateGeoLoc = db.Table('StateGeoLoc', metadata, autoload=True, autoload_with=engine)
+MassShootings = db.Table('MassShootings', metadata, autoload=True, autoload_with=engine)
 
 # Flask Setup
 app = Flask(__name__)
@@ -45,26 +45,24 @@ def home():
 #     return render_template('incident.html')
 
 # Incidents Route
-@app.route("/api/v1.0/incidents",  methods=["POST"])
+@app.route("/api/v1.0/incidents",  methods=["GET", "POST"])
 def incidents():
     '''Incident API Gun Violence App'''
-    print('entered incident route')
+
     query = db.select([Incident]) 
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchall()
-
-    # move table to df
     df = pd.DataFrame(ResultSet)
     df.columns = ResultSet[0].keys()
     df.dropna(subset=['Latitude', 'longitude'], inplace=True)
-
-    # Limit size for testing **
-    df_top =  df.head(1000)
+    year = 2017 # **
+    df['comp_date'] = pd.to_datetime(df['Date'], format= '%Y-%m-%d')
+    df_year = df[df['comp_date'].dt.year == year]
 
     # Generate return values geojson
     geojson = {"type": "FeatureCollection", "features": []}
 
-    for _, row in df_top.iterrows():
+    for _, row in df_year.iterrows():
         feature = {"type": "Feature", "geometry": {"type": "Point",
                   "coordinates": [row['longitude'], row['Latitude']]},
                   "properties": {"city": row['City'],"state": row['State'],
@@ -75,15 +73,13 @@ def incidents():
     return geojson
 
 # Incidents by Date Route
-@app.route("/api/v1.0/incidentsByDate",  methods=["POST"])
+@app.route("/api/v1.0/incidentsByDate",  methods=["GET", "POST"])
 def incidentsByDate(date):
     '''Incident API Gun Violence App'''
-    print('entered incident route')
+
     query = db.select([Incident]) 
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchall()
-
-    # move table to df
     df = pd.DataFrame(ResultSet)
     df.columns = ResultSet[0].keys()
     df.dropna(subset=['Latitude', 'longitude'], inplace=True)
@@ -105,18 +101,16 @@ def incidentsByDate(date):
     return geojson
 
 # Incidents by Year Route
-@app.route("/api/v1.0/incidentsByYear",  methods=["POST"])
+@app.route("/api/v1.0/incidentsByYear",  methods=["GET", "POST"])
 def incidentsByYear(year):
     '''Incident API Gun Violence App'''
-    print('entered incident route')
+
     query = db.select([Incident]) 
     ResultProxy = connection.execute(query)
     ResultSet = ResultProxy.fetchall()
-
-    # move table to df
     df = pd.DataFrame(ResultSet)
     df.columns = ResultSet[0].keys()
-    df.dropna(subset=['Latitude', 'longitude'], inplace=True)
+    df.dropna(subset=['Latitude', 'longitude'], inplace=True) # **
 
     # Select by year
     df['comp_date'] = pd.to_datetime(df['Date'], format= '%Y-%m-%d')
@@ -135,25 +129,76 @@ def incidentsByYear(year):
     
     return geojson
 
-# # Regulations Route
-# @app.route("/api/v1.0/regulations",  methods=["GET", "POST"])
-# def regulations():
-#         '''Do Soomething here'''
-#         # Return JSON 
+# Regulations Route
+@app.route("/api/v1.0/regulations",  methods=["GET", "POST"])
+def regulations():
+    '''Regulations by State'''
 
+    # Get Regulation data 
+    query = db.select([Regulations]) 
+    ResultProxy = connection.execute(query)
+    ResultSet = ResultProxy.fetchall()
+    df = pd.DataFrame(ResultSet)
+    df.columns = ResultSet[0].keys()
+    dfSum = pd.DataFrame(df.groupby('State')['Law_Total'].sum())
 
+    # Get State Geo Location data 
+    query = db.select([StateGeoLoc]) 
+    ResultProxy = connection.execute(query)
+    ResultSet = ResultProxy.fetchall()
 
-# # Another Route
-# @app.route("/api/v1.0/another2")
-# def another2():
-#         '''Do Soomething here'''
-#         # Return JSON 
+    # move table to df
+    st = pd.DataFrame(ResultSet)
+    st.columns = ResultSet[0].keys()
 
-# # Date Choice Route
-# @app.route("/api/v1.0/choice", methods=["GET", "POST"])
-# def choice():
-#         '''Do Soomething here'''
-#         # Return JSON 
+    # Join Regulations and State Geo Location 
+    stgl = pd.merge(dfSum, st,  how='inner', left_on=['State'], right_on = ['name'])
+
+    # Generate return values geojson
+    geojson = {"type": "FeatureCollection", "features": []}
+    for _, row in stgl.iterrows():
+        feature = {"type": "Feature", "geometry": {"type": "Point",
+                   "coordinates": [row['longitude'], row['latitude']]},
+                   "properties": {"lawTotal": row['Law_Total'],"stateAbbr": row['state'],
+                   "stateName": row['name']
+                        }}
+        geojson['features'].append(feature)
+
+    # Return JSON 
+    return geojson
+
+# MassShootings Route
+@app.route("/api/v1.0/massShootings",  methods=["GET", "POST"])
+def massShootings():
+    '''Mass Shootings'''
+
+    # Get Mass Shooting data 
+    query = db.select([MassShootings]) 
+    ResultProxy = connection.execute(query)
+    ResultSet = ResultProxy.fetchall()
+    ms = pd.DataFrame(ResultSet)
+    ms.columns = ResultSet[0].keys()
+
+    # Generate return values geojson
+    geojson = {"type": "FeatureCollection", "features": []}
+
+    for _, row in ms.iterrows():
+        feature = {"type": "Feature", "geometry": {"type": "Point",
+               "coordinates": [row['longitude'], row['Latitude']]},
+               "properties": {"case": row['case'],
+                              "location": row['location'],
+                              "location_type": row['location_type'],
+                              "age_of_shooter": row['age_of_shooter'],
+                              "fatalities": row['fatalities'],
+                              "weapon_type": row['weapon_type'],
+                              "injured": row['injured'],
+                              "type": row['type'],
+                              "date": row['date']
+                             }}
+        geojson['features'].append(feature)
+
+    # Return JSON 
+    return geojson
 
 # Define behavoir for main
 if __name__ == '__main__':

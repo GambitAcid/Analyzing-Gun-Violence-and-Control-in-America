@@ -14,6 +14,16 @@ var terrainmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.p
     id: "mapbox.mapbox-terrain-v2",
     accessToken: API_KEY
 });
+// Extra Outdoor Map
+var outdoormap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/outdoors-v11",
+    accessToken: API_KEY
+});
+
 // Satellite Map with api_key reference 
 var satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -24,7 +34,7 @@ var satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 
 var myMap = L.map("nics_map", {
     center: [39, -98],
-    zoom: 4,
+    zoom: 3,
     layers: [satellite]
     });
 
@@ -32,6 +42,7 @@ var myMap = L.map("nics_map", {
 var baseMaps = {
     "Street Map": streetmap,
     "Terrain Map": terrainmap,
+    "Outdoors Map": outdoormap,
     "Sattelite": satellite
 };
 
@@ -45,9 +56,9 @@ console.log("This is hooked up")
 // Overlay Object for state.html map
 var overlayMaps = {
     "FBI Checks Totals": TotalsLayer,
-    "FBI Concealed Carry Permit": PermitLayer,
-    "Handguns Per State": HandgunLayer,
-    "Long Guns Per State": LonggunLayer
+    // "FBI Concealed Carry Permit": PermitLayer,
+    // "Handguns Per State": HandgunLayer,
+    // "Long Guns Per State": LonggunLayer
 };
 
 // Adding layer control 

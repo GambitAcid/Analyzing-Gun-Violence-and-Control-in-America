@@ -151,15 +151,17 @@ def nics_states():
 
     for _, row in nics_df.iterrows():
         feature = {"type": "Feature", "geometry": {"type": "Point",
-                                                "coordinates": [row['longitude'], row['Latitude']]},
-                "properties": {"state": row['State'],
-                                "permit": row['Permit'], "handgun": row['Handgun'],
-                                "long_gun": row['Long_Gun']}}
+                                                   "coordinates": [row['longitude'], row['Latitude']]},
+                   "properties": {"state": row['State'],
+                                  "permit": row['Permit'], "handgun": row['Handgun'],
+                                  "long_gun": row['Long_Gun']}}
         geojson['features'].append(feature)
 
     return geojson
 
 # Regulations Route
+
+
 @app.route("/api/v1.0/regulations",  methods=["GET", "POST"])
 def regulations():
     '''Regulations by State'''

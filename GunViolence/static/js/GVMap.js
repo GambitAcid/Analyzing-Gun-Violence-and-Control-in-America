@@ -63,9 +63,9 @@ var dark = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
 //--------------------------------------------
 var map = L.map("map", {
   center: [
-    40.7, -94.5
+    40.7, -100.0
   ],
-  zoom: 5,
+  zoom: 4.2,
   layers: [graymap, satellitemap, outdoors, dark]
 });
 
@@ -132,7 +132,7 @@ function createMap(response) {
   // Set up the legend
   //--------------------------------------------
     var legend = L.control({
-      position: "bottomright"
+      position: "bottomleft"
   });
 
   legend.onAdd = function() {
@@ -248,7 +248,7 @@ function createMMap(mresponse) {
   // Set up the legend Mass Shootings
   //--------------------------------------------
   var legend = L.control({
-    position: "bottomright"
+    position: "bottomleft"
   });
 
   legend.onAdd = function() {

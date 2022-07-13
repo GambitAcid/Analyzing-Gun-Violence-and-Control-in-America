@@ -56,5 +56,111 @@ else:
 
         return jsonify(background)
 
+    @app.route('/sankey')
+    def sankey ():
+        return render_template('sankey.html')
+
+
+    @app.route('/sankey_data')
+    def sankey_data():
+        # # get gender list
+        # gender_list = []
+        # rs = connection.execute("""
+        #     select gender from "MassShootings"    group by gender
+        # """)
+
+        # for row in rs:
+        #     gender_list.append(row[0])
+            
+        # # get type list
+        # type_list = []
+        # rs = connection.execute("""
+        #     select type from "MassShootings"  group by type
+        # """)
+
+        # for row in rs:
+        #     type_list.append(row[0])
+            
+        # # get location type list
+        # location_list = []
+        # rs = connection.execute("""
+        #     select location_type from "MassShootings"  group by location_type
+        # """)
+
+        # for row in rs:
+        #     location_list.append(row[0])
+            
+        # print(gender_list)
+        # print(type_list)
+        # print(location_list)
+
+        # labels = []
+        # labels += gender_list
+        # labels += type_list
+        # labels += location_list
+        # print(labels)
+
+        # base don this, get source and target, value
+        # source = []
+        # target = []
+        # value = []
+
+        data = []
+
+        # 1. gender -> type
+        rs = connection.execute("""
+            select count(*) as cnt, gender, type
+            from "MassShootings"
+            group by gender, type
+            order by gender, type
+        """)
+
+
+        for row in rs:
+            cnt = row[0]
+            f1 = row[1]
+            f2 = row[2]
+            
+            data.append({"from": f1, "to": f2, "flow": cnt})
+                
+        # 2. gender -> location_type
+        rs = connection.execute("""
+            select count(*) as cnt, gender, location_type
+            from "MassShootings"
+            group by gender, location_type
+            order by gender, location_type
+        """)
+
+
+        for row in rs:
+            cnt = row[0]
+            f1 = row[1]
+            f2 = row[2]
+            
+            data.append({"from": f1, "to": f2, "flow": cnt})
+                
+                
+        # 2. type -> location_type
+        rs = connection.execute("""
+            select count(*) as cnt, type, location_type
+            from "MassShootings"
+            group by type, location_type
+            order by type, location_type
+        """)
+
+
+        for row in rs:
+            cnt = row[0]
+            f1 = row[1]
+            f2 = row[2]
+            
+            data.append({"from": f1, "to": f2, "flow": cnt})
+                
+        # print(source)
+        # print(target)
+        # print(value)
+
+        return jsonify(data)
+
 if __name__== '__main__': 
         app.run(debug= True)

@@ -80,7 +80,13 @@ Note: Only direct references are cited here, thousands of additional references 
  HUB
   https://hub.jhu.edu/gun-violence-solutions/
 
-
+### Dependencies
+HTML5 | CSS | Bootstrap | d3js | leaflet  
+https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css  
+https://unpkg.com/leaflet@1.8.0/dist/leaflet.js   
+https://unpkg.com/leaflet@1.8.0/dist/leaflet.css  
+https://d3js.org/d3.v5.min.js  
+https://www.mapbox.com/  
   
  
 

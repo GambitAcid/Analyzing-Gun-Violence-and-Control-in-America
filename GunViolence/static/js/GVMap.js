@@ -18,7 +18,7 @@ var url ='/api/v1.0/incidentsByYears'
 var url ='/api/v1.0/incidentsByDate'
 var url = 'api/v1.0/NICsStates'
 
-//--------------------------------------------
+//--------------------------------------------cd 
 // Get layers for selectable backgrounds.
 //--------------------------------------------
 
@@ -99,7 +99,7 @@ L.control
 //--------------------------------------------
 function createMap(response) {
 
-  //--------------------------------------------
+  //-------------------2-------------------------
   // Create a GeoJSON layer containing the features 
   //--------------------------------------------
   L.geoJSON(response, {

@@ -11,7 +11,7 @@ replace image for tables rows */
 
 .bg-1 {
     background-image: linear-gradient(to bottom, rgba(250, 250, 229, 0.5), rgba(237, 237, 248, 0.5)),
-        url('..static/css/images/BK_map.png');
+        url('images/BK_map.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -47,10 +47,17 @@ body {
 }
 
 #map{
-    height: 200%;
-    width: 200%;
+    height: 100%;
+    width: 100%;
 
 } 
+
+#nics_map{
+    height: 100%;
+    width: 100%;
+
+} 
+
 body,
 html {
     height: 100%;

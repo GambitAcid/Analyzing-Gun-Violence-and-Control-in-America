@@ -1,5 +1,8 @@
 # Gun-Violence-and-Control-in-America
-Gun violence feels too big, too powerful to stop. But it’s not too big for you to take some real, meaningful actions. You control what you decide you can live with, and what you can't. You can choose whether you do something, or do nothing.
+"Gun violence feels too big, too powerful to stop. But it’s not too big for you to take some real, meaningful actions. You control what you decide you can live with, and what you can't. You can choose whether you do something, or do nothing."
+— Jennifer Rosen Heinz
+
+
 
 ## Project overview
 
@@ -15,7 +18,7 @@ We collected available data from a variety of public and private sources, includ
 
 
 
-
+## Visual 1 demo in two parts
 https://user-images.githubusercontent.com/98897041/178830906-b6719a4f-1be6-4b5a-b0dd-6cdaf46f7d48.mp4
 
 

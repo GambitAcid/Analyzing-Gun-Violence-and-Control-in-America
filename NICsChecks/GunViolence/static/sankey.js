@@ -72,5 +72,3 @@ async function drawChart() {
 }
 
 drawChart();
-
-// let me send new zoom link

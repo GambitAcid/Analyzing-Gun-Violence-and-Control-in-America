@@ -29,20 +29,20 @@ and hide the navbar when the screen is smaller than 768 pixels and turn it blue
 @media (max-width: 660px) {
     .navbar {
         padding: 10px;
-        background: #5191fd;
+        background: #989faa;
     }
 }
 
 @media (min-width: 660px) {
     .navbar {
         padding: 10px;
-        background: #4f70cc;
+        background: #989faa;
     }
 }
 
 
 body {
-    background-color: #d8bfd8;
+    background-color: #f1eef1;
     padding: 0;
     margin: 0;
 }

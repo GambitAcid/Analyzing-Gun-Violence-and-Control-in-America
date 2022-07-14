@@ -39,20 +39,10 @@ app = Flask(__name__)
 
 # Flask Routes
 # Home Route
-
-
 @app.route("/")
 def home():
 
     return render_template('index.html')
-
-# # incident Home Route
-# @app.route("/api/v1.0/incident")
-# def homeincidente():
-
-#     return render_template('incident.html')
-
-# Incidents Route
 
 
 @app.route("/api/v1.0/incidents",  methods=["GET", "POST"])
@@ -83,8 +73,6 @@ def incidents():
     return geojson
 
 # Incidents by Date Route
-
-
 @app.route("/api/v1.0/incidentsByDate",  methods=["GET", "POST"])
 def incidentsByDate(date):
     '''Incident API Gun Violence App'''
@@ -113,8 +101,6 @@ def incidentsByDate(date):
     return geojson
 
 # Incidents by Year Route
-
-
 @app.route("/api/v1.0/incidentsByYear",  methods=["GET", "POST"])
 def incidentsByYear(year):
     '''Incident API Gun Violence App'''
@@ -142,9 +128,9 @@ def incidentsByYear(year):
         geojson['features'].append(feature)
 
     return geojson
-    ### NICs Route By State ###
 
 
+### NICs Route By State ###
 @app.route("/api/v1.0/NICsStates")
 def nics_states():
     geojson = {"type": "FeatureCollection", "features": []}
@@ -159,9 +145,8 @@ def nics_states():
 
     return geojson
 
+
 # Regulations Route
-
-
 @app.route("/api/v1.0/regulations",  methods=["GET", "POST"])
 def regulations():
     '''Regulations by State'''
@@ -200,9 +185,8 @@ def regulations():
     # Return JSON
     return geojson
 
+
 # MassShootings Route
-
-
 @app.route("/api/v1.0/massShootings",  methods=["GET", "POST"])
 def massShootings():
     '''Mass Shootings'''
@@ -272,48 +256,6 @@ def sankey ():
 
 @app.route('/sankey_data')
 def sankey_data():
-        # # get gender list
-        # gender_list = []
-        # rs = connection.execute("""
-        #     select gender from "MassShootings"    group by gender
-        # """)
-
-        # for row in rs:
-        #     gender_list.append(row[0])
-            
-        # # get type list
-        # type_list = []
-        # rs = connection.execute("""
-        #     select type from "MassShootings"  group by type
-        # """)
-
-        # for row in rs:
-        #     type_list.append(row[0])
-            
-        # # get location type list
-        # location_list = []
-        # rs = connection.execute("""
-        #     select location_type from "MassShootings"  group by location_type
-        # """)
-
-        # for row in rs:
-        #     location_list.append(row[0])
-            
-        # print(gender_list)
-        # print(type_list)
-        # print(location_list)
-
-        # labels = []
-        # labels += gender_list
-        # labels += type_list
-        # labels += location_list
-        # print(labels)
-
-        # base don this, get source and target, value
-        # source = []
-        # target = []
-        # value = []
-
         data = []
 
         # 1. gender -> type
@@ -365,10 +307,6 @@ def sankey_data():
             
             data.append({"from": f1, "to": f2, "flow": cnt})
                 
-        # print(source)
-        # print(target)
-        # print(value)
-
         return jsonify(data)
 
 # Define behavoir for main

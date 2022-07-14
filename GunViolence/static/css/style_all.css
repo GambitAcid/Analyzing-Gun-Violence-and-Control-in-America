@@ -2,7 +2,7 @@
 for all page backgrounds. Give tables a background to 
 replace image for tables rows */
 .bg-4 {
-    background-color: whitesmoke;
+    background-color: rgb(70, 114, 167);
 }
 
 .bg-3 {
@@ -36,12 +36,13 @@ and hide the navbar when the screen is smaller than 768 pixels and turn it blue
 @media (min-width: 660px) {
     .navbar {
         padding: 10px;
-        background: #a4b4e0;
+        background: #4f70cc;
     }
 }
 
 
 body {
+    background-color: #d8bfd8;
     padding: 0;
     margin: 0;
 }

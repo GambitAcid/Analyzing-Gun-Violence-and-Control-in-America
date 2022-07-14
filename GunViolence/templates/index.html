@@ -74,12 +74,12 @@
                 </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="pages/comparison.html">
-                        <i class="bi bi-grid-fill"></i> Comparison</a>
+                    <a class="nav-link" aria-current="page" href="/background">
+                        <i class="bi bi-grid-fill"></i>Firearms By State</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/data.html">
-                        <i class="bi bi-table"></i> data</a>
+                    <a class="nav-link" href="/sankey">
+                        <i class="bi bi-table"></i>Mass Vs. Spree</a>
                 </li>
                 </ul>
             </div>
@@ -100,6 +100,19 @@
                 <div id="nics_map" style="height: 350px;"></div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6 col-md-4">
+                <!-- <select id="state" onchange="drawChart()">
+                    {% for item in background %}
+                    <option value={{item[0]}}>{{item[0]}}</option>
+                    {% endfor %}
+                </select>
+
+                <canvas id="handgunChart" width="400" height="400"></canvas>
+                <canvas id="longgunChart" width="400" height="400"></canvas>
+                <canvas id="otherChart" width="400" height="400"></canvas> -->
+            </div>
+        </div>
     </div>
 
 
@@ -111,6 +124,8 @@
     <script type="text/javascript" src="static/js/config.js"></script>
     <script type="text/javascript" src="static/js/GVMap.js"></script>
     <script type="text/javascript" src="static/js/logic.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="/static/js/index.js"></script>
 
 </body>
 

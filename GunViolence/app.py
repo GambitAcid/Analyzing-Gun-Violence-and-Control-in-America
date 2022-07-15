@@ -27,12 +27,9 @@ nics_df = pd.read_csv("static/Data/NICsChecks_Geocoords.csv").dropna(how="any")
 
 # Save table reference
 Incident = db.Table('Incident', metadata, autoload=True, autoload_with=engine)
-Regulations = db.Table('Regulations', metadata,
-                       autoload=True, autoload_with=engine)
-StateGeoLoc = db.Table('StateGeoLoc', metadata,
-                       autoload=True, autoload_with=engine)
-MassShootings = db.Table('MassShootings', metadata,
-                         autoload=True, autoload_with=engine)
+Regulations = db.Table('Regulations', metadata, autoload=True, autoload_with=engine)
+StateGeoLoc = db.Table('StateGeoLoc', metadata, autoload=True, autoload_with=engine)
+MassShootings = db.Table('MassShootings', metadata, autoload=True, autoload_with=engine)
 
 # Flask Setup
 app = Flask(__name__)

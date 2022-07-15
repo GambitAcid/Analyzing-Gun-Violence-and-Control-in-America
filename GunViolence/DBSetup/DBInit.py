@@ -177,6 +177,7 @@ dfc['Latitude'] = dfc['Latitude'].fillna(dfc['slatitude'])
 dfc['longitude'] = dfc['longitude'].fillna(dfc['slongitude'])
 dfc.drop(columns = ['slatitude', 'slongitude', 'name'], inplace = True)
 GVAIncidAll = dfc
+GVAIncidAll.index.rename('IncidentID', inplace=True)
 GVAIncidAll.to_sql('Incident', engine, index=True, if_exists='replace')
 
 # Definition of Participant Master table

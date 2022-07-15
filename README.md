@@ -12,7 +12,7 @@ We hope our research can help others find a path that will lead to a solution.
 
 ## Technical Overview
 
-We collected available data from a variety of public and private sources, including the CDC, Federal Bureau of Investigation(FBI) and gunviolence.org, bringing them togoether in a single postgres database GunData.  
+We collected available data from a variety of public and private sources, including the CDC, Federal Bureau of Investigation(FBI) and gunviolence.org, bringing them together in a single postgres database GunData.  
 
 
 

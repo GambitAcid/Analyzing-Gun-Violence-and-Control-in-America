@@ -138,7 +138,7 @@ function createMap(response) {
           labels.push('<li style="background-color:' + DColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
         }
         // Add Legend HTML
-        div.innerHTML = "<h6>Incidents (2017)</h6><h6>Number Killed</h6>";
+        div.innerHTML = "<h6>Incidents 13-20</h6><h6>Number Killed</h6>";
         div.innerHTML += "<ul>" + labels.join("") + "</ul>";
     
     return div;

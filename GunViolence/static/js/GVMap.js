@@ -1,24 +1,12 @@
 // Multi-layer gun violence map  v1 06.27.2022
 
+
 // ------------------------------------------
-// Get selections from HTML **
+// geojson url 
 //--------------------------------------------
 
-// var sType = document.getElementById("searchType").value;
-// var sValue = document.getElementById("searchValue").value;
 
-// // ------------------------------------------
-// // geojson url 
-// //--------------------------------------------
-
-var url = "/api/v1.0/incidents"
-var url ='/api/v1.0/massShootings'
-var url ='/api/v1.0/regulations'
-var url ='/api/v1.0/incidentsByYears'
-var url ='/api/v1.0/incidentsByDate'
-var url = 'api/v1.0/NICsStates'
-
-//--------------------------------------------cd 
+//--------------------------------------------
 // Get layers for selectable backgrounds.
 //--------------------------------------------
 
@@ -70,15 +58,17 @@ var map = L.map("map", {
 });
 
 //--------------------------------------------
-// Layers for incidents and Regulations
+// Layers for Incidents, Regulations, Mass Shootings and Death Rate
 //--------------------------------------------
 var incidents = new L.LayerGroup();
 var regulations = new L.LayerGroup();
 var massshootings = new L.LayerGroup();
+var deathrate = new L.LayerGroup();
 var overlays = {
     Incidents: incidents,
     Regulations: regulations,
-    'Mass Shootings': massshootings
+    'Mass Shootings': massshootings,
+    'Death Rate': deathrate
 };
 
 //--------------------------------------------
@@ -94,12 +84,14 @@ L.control
 .layers(baseMaps, overlays)
 .addTo(map);
 
+//---------------Incidents--------------------
+
 //--------------------------------------------
-// Set Map Features 
+// Set Map Features  for Incidents
 //--------------------------------------------
 function createMap(response) {
 
-  //-------------------2-------------------------
+  //--------------------------------------------
   // Create a GeoJSON layer containing the features 
   //--------------------------------------------
   L.geoJSON(response, {
@@ -192,6 +184,10 @@ function createMap(response) {
     return killed * 5;
   }
   };
+
+
+//--------------------Reguations----------------------
+
 //----------------------------------------
 // Set State Regulations Map Features
 //----------------------------------------
@@ -270,7 +266,7 @@ function createMMap(mresponse) {
   // Add legend to map.
   legend.addTo(map);
 
-  //--------------------------------------------
+    //--------------------------------------------
   // Define a color function 
   // Set color based on  fatalities
   //--------------------------------------------
@@ -289,45 +285,171 @@ function createMMap(mresponse) {
     default:
       return "#008000";
     }
-  };
+ };
+}
+
+// --------------------Death Rate--------------------------
+
+//--------------------------------------------
+// Set State Death Rate Map Features 
+//--------------------------------------------
+function createDMap(statesData) {
+
+//--------------------------------------------
+// Create a GeoJSON for State Death Rate
+//--------------------------------------------
+  geojson = L.geoJSON(statesData, {
+
+    style: function style(feature) {
+      return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+        }
+      },
+
+    onEachFeature: onEachFeature
+}).addTo(deathrate)
 
   //--------------------------------------------
-  // Define a marker size function
-  // Set size based on fatalities
+  // Binding a pop-up to each layer
   //--------------------------------------------
-  function markerSize(killed) {
-    if (killed === 0) {
-        return .5;
-      }
-    return killed * 2;
-  }
+  function onEachFeature(feature, layer) {
+
+    layer.bindPopup(`<strong>State : </strong> ${feature.properties.name}<br><strong>Gun involved death rate: </strong> ${feature.properties.density}`);
+  };
+  //add death rate to map
+  deathrate.addTo(map);
+
+    //--------------------------------------------
+  // Set up the legend Death Rates
+  //--------------------------------------------
+  var legend = L.control({
+    position: "bottomright"
+  });
+
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var k = [0, 3, 5, 10, 15, 20, 25];
+    var labels = [];
+    
+    // Label and color the legend
+      for (var i = 0; i < k.length; i++) {
+
+          labels.push('<li style="background-color:' + getColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
+        }
+        // Add Legend HTML
+        div.innerHTML = "<h6>Death Rates</h6><h6>By State</h6>";
+        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    
+    return div;
+  };
+  // Add legend to map.
+  legend.addTo(map);
+
+
+  //--------------------------------------------
+  // Define a color function 
+  // Set color based on  Death Rate
+  //--------------------------------------------
+  function getColor(d) {
+    switch (true) {
+    case d > 25:
+      return '#800026';
+    case  d > 20:
+      return '#BD0026';
+    case d > 15:
+      return '#E31A1C';
+    case d > 10 :
+      return '#FC4E2A';
+    case d > 05:
+      return '#FD8D3C';
+    case d > 03:
+      return '#FED976';
+    default:
+      return "white";
+    }
 };
-//----------------------------------------
-// Determine Search type **
-//----------------------------------------
-function GetSelection(type){
-  switch (true) {
-  case "All":
-    var url = "http://127.0.0.1:8000//api/v1.0/incidents"
-    return url
-    break;
-  case date:
-    var url = "http://127.0.0.1:8000//api/v1.0/incidentsByDate(sValue)"
-    return url
-    break;
-  case year:
-    var url = "http://127.0.0.1:8000//api/v1.0/incidentsByYear(sValue)"
-    return url
-    break;
-  case state:
-    var url = "http://127.0.0.1:8000//api/v1.0/incidentsByState(sValue)"
-    return url
-    break;
-  default:
-    var url = "http://127.0.0.1:8000//api/v1.0/incidents"
-    return url
+
+//--------------------------------------------
+// Listeners
+//--------------------------------------------
+// Define a mouse over highlight function
+//--------------------------------------------
+function highlightFeature(e) {
+var layer = e.target;
+
+layer.setStyle({
+    weight: 5,
+    color: '#666',
+    dashArray: '',
+    fillOpacity: 0.7
+});
+
+if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
 }
+info.update(layer.feature.properties);
+}
+
+function resetHighlight(e) {
+  var layer = e.target;
+    layer.setStyle({
+    weight: 2,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  });
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToBack();
+  }
+  info.update();
+}
+function zoomToFeature(e) {
+  map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    click: zoomToFeature
+});
+}
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
 };
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Death Rate By State</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />' + props.density + ' Victims/100,000'
+        : 'Hover over a state');
+};
+
+info.addTo(map);
+}
+//--------------------------------------------
+// Define a marker size function
+// Set size based on fatalities
+//--------------------------------------------
+function markerSize(killed) {
+ if (killed === 0) {
+      return .5;
+    }
+  return killed * 2;
+}
+
+
+
 
 //----------------------------------------
 // Get Data and Build Maps 
@@ -347,3 +469,6 @@ d3.json('/api/v1.0/regulations').then(function(regulationsdata) {
 d3.json('/api/v1.0/massShootings').then(function(mresponse) {
   createMMap(mresponse);
 })
+
+// Create Death Rate Overlay
+    createDMap(statesData)

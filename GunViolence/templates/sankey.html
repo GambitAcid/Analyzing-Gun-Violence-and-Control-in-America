@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,12 +14,13 @@
     <!-- Local css -->
     <link rel="stylesheet" href="static/css/style_all.css">
 
-    <title> Mass Shootings Vs. Spree Shootings</title>
+    <title> Mass Vs. Spree Shootings</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid  bg-1">
-            <a class="navbar-brand" href="/"><i class="bi bi-globe"></i> Gun Violence in the US</a>
+            <a class="navbar-brand" href="/"><i class="bi bi-shield-shaded"></i> Gun Violence in the United States</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -36,22 +38,26 @@
                             <li><a class="dropdown-item" href="/">
                                     <i class="bi bi-exclamation-octagon"></i> Incidents</a>
                             </li>
-                            <li><a class="dropdown-item" href="pages/states.html">
+                            <li><a class="dropdown-item" href="/NICs">
                                     <i class="bi bi-shield"></i> FBI Background Checks</a>
                             </li>
                             <hr class="dropdown-divider">
                     </li>
                     <li><a class="dropdown-item" href="/"><i class="bi bi-globe">
                             </i> Back to Home</a></li>
-                </ul>
+                </ul> 
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/NICs">
+                        <i class="bi bi-fingerprint"></i>FBI Data</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/background">
-                        <i class="bi bi-grid-fill"></i> Firearms By State</a>
+                        <i class="bi bi-globe"></i> Firearms by State</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/sankey">
-                        <i class="bi bi-table"></i> Mass Vs. Spree</a>
+                        <i class="bi bi-bar-chart-line"></i> Mass Vs. Spree</a>
                 </li>
                 </ul>
             </div>
@@ -60,16 +66,17 @@
     <div class="container bg-2">
         <div class="row">
             <br><br><br>
-            <h1>Mass Shooting by Type and Gender</h1>
+            <h1>Mass Shootings by Type and Gender</h1>
         </div>
         <div class="col-md-12">
             <div class="chart">
-            <canvas id="chart"></canvas>
+                <canvas id="chart"></canvas>
             </div>
-    </div>
- 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-sankey@0.4.0"></script>
-    <script src="/static/js/sankey.js"></script>
- </body>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-sankey@0.4.0"></script>
+        <script src="/static/js/sankey.js"></script>
+</body>
+
 </html>

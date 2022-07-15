@@ -34,7 +34,7 @@ var satellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 
 var myMap = L.map("nics_map", {
     center: [39, -98],
-    zoom: 3,
+    zoom: 4.2,
     layers: [satellite]
     });
 

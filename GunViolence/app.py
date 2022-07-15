@@ -129,6 +129,10 @@ def incidentsByYear(year):
 
     return geojson
 
+@app.route("/NICs")
+def NICs():
+
+    return render_template('fbi_nics.html')
 
 ### NICs Route By State ###
 @app.route("/api/v1.0/NICsStates")

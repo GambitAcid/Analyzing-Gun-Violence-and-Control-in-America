@@ -11,7 +11,7 @@
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
-    <!-- Leaflet and Leaflet css -->
+    <!--Leaflet and Leaflet css-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
         crossorigin="" />
@@ -33,9 +33,7 @@
 
     <!-- Local css -->
     <link rel="stylesheet" href="static/css/style_all.css">
-
-    <title>Gun Violence</title>
-
+    <title>FBI NICs Checks By States</title>
 </head>
 
 <body>
@@ -56,7 +54,7 @@
                             Interactive Maps
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/">
+                            <li><a class="dropdown-item" href="pages/incident.html">
                                     <i class="bi bi-exclamation-octagon"></i> Incidents</a>
                             </li>
                             <li><a class="dropdown-item" href="/NICs">
@@ -64,7 +62,7 @@
                             </li>
                             <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="/"><i class="bi bi-globe">
+                    <li><a class="dropdown-item" href="index.html"><i class="bi bi-globe">
                             </i> Back to Home</a></li>
                 </ul>
                 </li>
@@ -91,51 +89,44 @@
     <div class="container bg-1">
         <div class="row">
             <br><br><br>
-            <h1>Gun Violence Incidents In America</h1>
+            <h1>FBI NICs Background Data by State</h1>
             <h4>Use the interactive maps below to explore each dataset</h4>
             <div class="col-md-12">
-                <div id="map" style="height: 700px;"></div>
+                <div id="nics_map" style="height: 600px;"></div>
                 <!-- <h1>Gun Violence Incidents In America</h1>
-                <p>Use the interactive maps below to explore each dataset</p> -->
+                <p>Use the interactive charts below to explore each dataset</p> -->
             </div>
-            <!-- 
-            <div class="col-md-4">
-                <div id="nics_map" style="height: 350px;"></div>
-            </div>-->
+
+            <!-- <div class="col-md-4">
+                    <div id="nics_map" style="height: 350px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-4"> -->
+            <!-- <select id="state" onchange="drawChart()">
+                        {% for item in background %}
+                        <option value={{item[0]}}>{{item[0]}}</option>
+                        {% endfor %}
+                    </select>
+    
+                    <canvas id="handgunChart" width="400" height="400"></canvas>
+                    <canvas id="longgunChart" width="400" height="400"></canvas>
+                    <canvas id="otherChart" width="400" height="400"></canvas> -->
         </div>
-
-        <!-- <div class="row">
-            <div class="col-md-12">
-                <br><br><br>
-                <h1>FBI Background Checks</h1>
-                <br><br><br>
-                <div id="nics_map" style="height: 600px;"></div> -->
-
-        <!-- <div class="col-md-6 col-md-4">
-                <select id="state" onchange="drawChart()">
-                    {% for item in background %}
-                    <option value={{item[0]}}>{{item[0]}}</option>
-                    {% endfor %}
-                </select>
-
-                <canvas id="handgunChart" width="400" height="400"></canvas>
-                <canvas id="longgunChart" width="400" height="400"></canvas>
-                <canvas id="otherChart" width="400" height="400"></canvas> -->
-
     </div>
-    </div>
+
 
 
     <!-- <div class="col-md-4">
-                    <div id="radar"></div>
-                </div> -->
+                        <div id="radar"></div>
+                    </div> -->
 
     <!-- Local Scripts  -->
     <script type="text/javascript" src="static/js/config.js"></script>
-    <script type="text/javascript" src="static/js/GVMap.js"></script>
+    <!-- <script type="text/javascript" src="static/js/GVMap.js"></script> --> --> -->
     <script type="text/javascript" src="static/js/logic.js"></script>
+    <!-- <script type="text/javascript" src="/static/js/index.js"></script> --> -->
 
-    <!-- Chart js Script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 

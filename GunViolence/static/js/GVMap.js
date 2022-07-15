@@ -138,13 +138,30 @@ function createMap(response) {
           labels.push('<li style="background-color:' + DColor(k[i] + 1) + '"><span>' + k[i] + (k[i + 1] ? '&ndash;' + k[i + 1] + '' : '+') + '</span></li>');
         }
         // Add Legend HTML
-        div.innerHTML = "<h6>Incidents 13-20</h6><h6>Number Killed</h6>";
+        div.innerHTML = "<h6>Incidents '13-'20</h6><h6>Number Killed</h6>";
         div.innerHTML += "<ul>" + labels.join("") + "</ul>";
     
     return div;
   };
   // Add legend to map.
   legend.addTo(map);
+
+  //--------------------------------------------
+  // Event listener for layer select and 
+  // deselect legend control 
+  //--------------------------------------------
+
+  map.on('overlayadd', function(eventLayer){
+    if (eventLayer.name === 'Incidents'){
+        map.addControl(legend);
+    } 
+  });
+
+  map.on('overlayremove', function(eventLayer){
+    if (eventLayer.name === 'Incidents'){
+         map.removeControl(legend);
+    } 
+  });
 
   //--------------------------------------------
   // Define color function 
@@ -266,6 +283,23 @@ function createMMap(mresponse) {
   // Add legend to map.
   legend.addTo(map);
 
+  //--------------------------------------------
+  // Event listener for layer select and 
+  // deselect legend control 
+  //--------------------------------------------
+
+  map.on('overlayadd', function(eventLayer){
+    if (eventLayer.name === 'Mass Shootings'){
+        map.addControl(legend);
+    } 
+  });
+
+  map.on('overlayremove', function(eventLayer){
+    if (eventLayer.name === 'Mass Shootings'){
+         map.removeControl(legend);
+    } 
+  });
+
     //--------------------------------------------
   // Define a color function 
   // Set color based on  fatalities
@@ -324,7 +358,7 @@ function createDMap(statesData) {
   //add death rate to map
   deathrate.addTo(map);
 
-    //--------------------------------------------
+  //--------------------------------------------
   // Set up the legend Death Rates
   //--------------------------------------------
   var legend = L.control({
@@ -350,6 +384,39 @@ function createDMap(statesData) {
   // Add legend to map.
   legend.addTo(map);
 
+  //--------------------------------------------
+  // Event listener for layer select and 
+  // deselect legend control 
+  //--------------------------------------------
+
+  map.on('overlayadd', function(eventLayer){
+    if (eventLayer.name === 'Death Rate'){
+        map.addControl(legend);
+        info.onAdd = function (map) {
+          this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+          this.update();
+          return this._div;
+      };
+      
+      // method that we will use to update the control based on feature properties passed
+      info.update = function (props) {
+          this._div.innerHTML = '<h4>Death Rate By State</h4>' +  (props ?
+              '<b>' + props.name + '</b><br />' + props.density + ' Victims/100,000'
+              : 'Hover over a state on Death Rate Layer');
+      };
+      info.addTo(map);
+    } 
+  });
+
+  map.on('overlayremove', function(eventLayer){
+    if (eventLayer.name === 'Death Rate'){
+         map.removeControl(legend);
+         info.update = function (props) {
+          this._div.innerHTML = ''
+         };
+         info.addTo(map);
+    } 
+  });
 
   //--------------------------------------------
   // Define a color function 
@@ -432,11 +499,12 @@ info.onAdd = function (map) {
 info.update = function (props) {
     this._div.innerHTML = '<h4>Death Rate By State</h4>' +  (props ?
         '<b>' + props.name + '</b><br />' + props.density + ' Victims/100,000'
-        : 'Hover over a state');
+        : 'Hover over a state on Death Rate Layer');
 };
 
 info.addTo(map);
 }
+
 //--------------------------------------------
 // Define a marker size function
 // Set size based on fatalities
@@ -449,14 +517,11 @@ function markerSize(killed) {
 }
 
 
-
-
 //----------------------------------------
 // Get Data and Build Maps 
 //----------------------------------------
 // Get Incidents geoJSON data.
 d3.json('/api/v1.0/incidents').then(function(response) {
-    // Call createMap with response.features
     createMap(response.features);
 });
 

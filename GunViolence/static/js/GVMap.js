@@ -84,7 +84,11 @@ L.control
 .layers(baseMaps, overlays)
 .addTo(map);
 
-//---------------Incidents--------------------
+
+//----------------------------------------
+//         Incidents Section 
+// Map Build | Listeners | Layer Controls
+//----------------------------------------
 
 //--------------------------------------------
 // Set Map Features  for Incidents
@@ -202,8 +206,10 @@ function createMap(response) {
   }
   };
 
-
-//--------------------Reguations----------------------
+//----------------------------------------
+//      State Regulations Section 
+// Map Build | Listeners | Layer Controls
+//----------------------------------------
 
 //----------------------------------------
 // Set State Regulations Map Features
@@ -220,6 +226,12 @@ function createState(regulationsdata) {
 
   regulations.addTo(map);
 }
+
+//--------------------------------------------
+//         Mass Shootings Section 
+// Map Build | Listeners | Layer Controls
+//--------------------------------------------
+
 //--------------------------------------------
 // Set Mass Shooting Map Features 
 //--------------------------------------------
@@ -322,7 +334,11 @@ function createMMap(mresponse) {
  };
 }
 
-// --------------------Death Rate--------------------------
+
+//----------------------------------------
+//         Death Rate Section 
+// Map Build | Listeners | Layer Controls
+//----------------------------------------
 
 //--------------------------------------------
 // Set State Death Rate Map Features 

@@ -4,7 +4,6 @@ from flask import Flask
 from flask import Flask, jsonify, request, render_template
 
 import pandas as pd
-
 import sqlalchemy as db
 from sqlalchemy import create_engine, func
 from sqlalchemy import inspect
@@ -13,7 +12,7 @@ import json
 import geojson
 from geojson import Point, Feature
 
-# Postgres Connection String
+# # Postgres Connection String
 from config import User
 
 # Set up Postgres DB Connections
